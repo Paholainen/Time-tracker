@@ -32,4 +32,84 @@
       font-size: 28px;
       margin-bottom: 10px;
       font-variant-numeric: tabular-nums;
-      text-
+      text-align: center;
+      color: #fff;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+    }
+
+    button {
+      border: none;
+      border-radius: 8px;
+      font-size: 13px;
+      cursor: pointer;
+      height: 30px;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    button.start {
+      background: #2f80ed;
+      color: white;
+      font-weight: 500;
+    }
+
+    button.icon {
+      background: #3a3a3a;
+      color: white;
+      width: 30px;
+      padding: 0;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="timer">
+    <div id="time" class="time">00:00:00</div>
+
+    <div class="buttons">
+      <button class="start" onclick="start()">Start</button>
+      <button class="icon" onclick="stop()" title="Stop">⏸</button>
+      <button class="icon" onclick="reset()" title="Reset">↺</button>
+    </div>
+  </div>
+
+  <script>
+    let seconds = 0;
+    let interval = null;
+
+    function formatTime(sec) {
+      const h = String(Math.floor(sec / 3600)).padStart(2, '0');
+      const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+      const s = String(sec % 60).padStart(2, '0');
+      return `${h}:${m}:${s}`;
+    }
+
+    function update() {
+      seconds++;
+      document.getElementById('time').textContent = formatTime(seconds);
+    }
+
+    function start() {
+      if (!interval) interval = setInterval(update, 1000);
+    }
+
+    function stop() {
+      clearInterval(interval);
+      interval = null;
+    }
+
+    function reset() {
+      stop();
+      seconds = 0;
+      document.getElementById('time').textContent = "00:00:00";
+    }
+  </script>
+</body>
+</html>
