@@ -1,115 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Work Timer</title>
+<script>
+let seconds = 0;
+let interval = null;
+let running = false;
 
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: transparent;
-    }
+const timeEl = document.getElementById("time");
+const mainBtn = document.getElementById("toggleBtn");
+const resetBtn = document.getElementById("resetBtn");
 
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
+function formatTime(sec) {
+  const h = String(Math.floor(sec / 3600)).padStart(2, "0");
+  const m = String(Math.floor((sec % 3600) / 60)).padStart(2, "0");
+  const s = String(sec % 60).padStart(2, "0");
+  return `${h}:${m}:${s}`;
+}
 
-    .timer {
-      background: rgba(20, 20, 20, 0.88);
-      backdrop-filter: blur(8px);
-      padding: 14px 16px;
-      border-radius: 12px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-      display: inline-block;
-    }
+function tick() {
+  seconds++;
+  timeEl.textContent = formatTime(seconds);
+}
 
-    .time {
-      font-size: 28px;
-      margin-bottom: 10px;
-      font-variant-numeric: tabular-nums;
-      text-align: center;
-      color: #fff;
-    }
+/* START */
+function startTimer() {
+  if (interval) return;
 
-    .buttons {
-      display: flex;
-      gap: 6px;
-      justify-content: center;
-    }
+  interval = setInterval(tick, 1000);
+  running = true;
 
-    button {
-      border: none;
-      border-radius: 8px;
-      font-size: 13px;
-      cursor: pointer;
-      height: 30px;
-      padding: 0 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
+  mainBtn.textContent = "Pause";
+  mainBtn.classList.add("pause");
+}
 
-    button.start {
-      background: #2f80ed;
-      color: white;
-      font-weight: 500;
-    }
+/* PAUSE */
+function pauseTimer() {
+  clearInterval(interval);
+  interval = null;
+  running = false;
 
-    button.icon {
-      background: #3a3a3a;
-      color: white;
-      width: 30px;
-      padding: 0;
-    }
-  </style>
-</head>
+  // ⛔ DO NOT change button back to Start
+}
 
-<body>
-  <div class="timer">
-    <div id="time" class="time">00:00:00</div>
+/* BUTTON CLICK */
+mainBtn.onclick = () => {
+  if (!running) {
+    startTimer();
+  } else {
+    pauseTimer();
+  }
+};
 
-    <div class="buttons">
-      <button class="start" onclick="start()">Start</button>
-      <button class="icon" onclick="stop()" title="Stop">⏸</button>
-      <button class="icon" onclick="reset()" title="Reset">↺</button>
-    </div>
-  </div>
+/* RESET */
+resetBtn.onclick = () => {
+  clearInterval(interval);
+  interval = null;
+  running = false;
+  seconds = 0;
 
-  <script>
-    let seconds = 0;
-    let interval = null;
-
-    function formatTime(sec) {
-      const h = String(Math.floor(sec / 3600)).padStart(2, '0');
-      const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
-      const s = String(sec % 60).padStart(2, '0');
-      return `${h}:${m}:${s}`;
-    }
-
-    function update() {
-      seconds++;
-      document.getElementById('time').textContent = formatTime(seconds);
-    }
-
-    function start() {
-      if (!interval) interval = setInterval(update, 1000);
-    }
-
-    function stop() {
-      clearInterval(interval);
-      interval = null;
-    }
-
-    function reset() {
-      stop();
-      seconds = 0;
-      document.getElementById('time').textContent = "00:00:00";
-    }
-  </script>
-</body>
-</html>
+  timeEl.textContent = "00:00:00";
+  mainBtn.textContent = "Start";
+  mainBtn.classList.remove("pause");
+};
+</script>
