@@ -1,3 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Work Timer</title>
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ===== TIMER CARD ===== */
+.timer {
+  background: rgba(20,20,20,0.88);
+  backdrop-filter: blur(8px);
+  padding: 14px 18px;
+  border-radius: 14px;
+  box-shadow: 0 12px 32px rgba(0,0,0,.35);
+}
+
+/* ===== TIME ===== */
+.time {
+  font-size: 28px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== BUTTONS ===== */
+.buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+button {
+  border: none;
+  border-radius: 9px;
+  height: 32px;
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .15s ease, transform .08s ease, opacity .15s;
+}
+
+/* Start / Pause */
+button.primary {
+  background: #2f80ed; /* Start = blue */
+  color: #fff;
+}
+
+button.primary:hover {
+  background: #256bd1;
+}
+
+button.primary.pause {
+  background: #d64545; /* Pause = red */
+}
+
+button.primary.pause:hover {
+  background: #bb3b3b;
+}
+
+button.primary:active,
+button.secondary:active {
+  transform: scale(0.96);
+}
+
+/* Reset */
+button.secondary {
+  background: #3a3a3a;
+  color: #fff;
+}
+
+button.secondary:hover {
+  background: #4a4a4a;
+}
+
+button.secondary:active {
+  transform: scale(0.96);
+}
+</style>
+</head>
+
+<body>
+<div class="timer">
+  <div id="time" class="time">00:00:00</div>
+
+  <div class="buttons">
+  <button id="toggleBtn" class="primary">Start</button>
+  <button id="resetBtn" class="icon" title="Reset">↺</button>
+</div>
+
 <script>
 let seconds = 0;
 let interval = null;
@@ -60,3 +168,7 @@ resetBtn.onclick = () => {
   mainBtn.classList.remove("pause");
 };
 </script>
+
+
+</body>
+</html>
